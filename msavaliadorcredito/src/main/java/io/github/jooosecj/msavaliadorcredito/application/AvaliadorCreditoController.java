@@ -2,6 +2,9 @@ package io.github.jooosecj.msavaliadorcredito.application;
 
 import io.github.jooosecj.msavaliadorcredito.application.ex.DadosClienteNotFoundException;
 import io.github.jooosecj.msavaliadorcredito.application.ex.ErroComunicacaoMicorservicesException;
+import io.github.jooosecj.msavaliadorcredito.application.ex.ErroSolicitacaoCartaoException;
+import io.github.jooosecj.msavaliadorcredito.domain.model.DadosSolicitacaoEmissaoCartao;
+import io.github.jooosecj.msavaliadorcredito.domain.model.ProtocoloSolicitacaoCartao;
 import io.github.jooosecj.msavaliadorcredito.domain.model.RetornoAvaliacaoCliente;
 import io.github.jooosecj.msavaliadorcredito.domain.model.SituacaoCliente;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,14 @@ public class AvaliadorCreditoController {
         } catch (ErroComunicacaoMicorservicesException e) {
             return ResponseEntity.status(HttpStatus.resolve(e.getStatus())).body(e.getMessage());
         }
-
+    }
+    @PostMapping(value = "solicitacoes-cartao")
+    public ResponseEntity solicitarCartao(@RequestBody DadosSolicitacaoEmissaoCartao dados) {
+        try {
+            ProtocoloSolicitacaoCartao protocoloSolicitacaoCartao = avaliadorCreditoService.solicitarEmissaoCartao(dados);
+            return ResponseEntity.ok(protocoloSolicitacaoCartao);
+        } catch (ErroSolicitacaoCartaoException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
