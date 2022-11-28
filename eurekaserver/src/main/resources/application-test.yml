@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: eurekaserver
+  security:
+      basic:
+        enabled: true
+      user:
+        name: cursoms-eureka-user
+        password: rsoe-dbmgcsqmou
+#  security:
+#    basic:
+#      enabled: true
+#    user:
+#      name: cursoms-eureka-user
+#      password: rsoe-dbmgcsqmou
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
